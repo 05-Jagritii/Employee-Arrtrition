@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  predictAttrition,
+  PredictionResponse,
+} from "@/lib/api";
+
 import { useForm , Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -17,19 +22,50 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function EmployeeForm() {
+interface EmployeeFormProps {
+  onPrediction: (result: PredictionResponse) => void;
+}
+
+export default function EmployeeForm({
+  onPrediction,
+}: EmployeeFormProps) {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<EmployeeFormData>({
-    resolver: zodResolver(employeeSchema),
-  });
+  resolver: zodResolver(employeeSchema),
 
-  const onSubmit = (data: EmployeeFormData) => {
-    console.log(data);
-  };
+  defaultValues: {
+    Gender: undefined,
+    MaritalStatus: undefined,
+    Department: undefined,
+    JobRole: undefined,
+    BusinessTravel: undefined,
+    OverTime: undefined,
+
+    Education: undefined,
+    EducationField: undefined,
+    EnvironmentSatisfaction: undefined,
+    JobInvolvement: undefined,
+    JobSatisfaction: undefined,
+    PerformanceRating: undefined,
+    RelationshipSatisfaction: undefined,
+    WorkLifeBalance: undefined,
+    StockOptionLevel: undefined,
+  },
+});
+
+  const onSubmit = async (data: EmployeeFormData) => {
+  try {
+    const result = await predictAttrition(data);
+
+    onPrediction(result);
+  } catch (error) {
+    console.error("Prediction failed:", error);
+  }
+};
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
