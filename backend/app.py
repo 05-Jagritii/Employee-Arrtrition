@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from schemas import EmployeeData
-from predict import predict_attrition
-from response_schema import PredictionResponse
+from backend.schemas import EmployeeData
+from backend.response_schema import PredictionResponse
+from backend.predict import predict_attrition
 from fastapi import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 

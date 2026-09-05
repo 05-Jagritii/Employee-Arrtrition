@@ -2,8 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 import shap
-
-from model_loader import model, label_encoder
+from backend.model_loader import model, label_encoder
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MODEL_DIR = BASE_DIR / "models"
