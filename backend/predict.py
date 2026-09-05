@@ -1,11 +1,17 @@
+from pathlib import Path
+
 import pandas as pd
 import shap
 
 from model_loader import model, label_encoder
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_DIR = BASE_DIR / "models"
 
 # Load SHAP background data
-background_data = pd.read_csv("../models/shap_background.csv")
+background_data = pd.read_csv(
+    MODEL_DIR / "shap_background.csv"
+)
 
 
 def get_feature_contributions(input_df):
